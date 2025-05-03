@@ -107,6 +107,15 @@ start_date, end_date = st.sidebar.date_input(
 default_filters = {
     "selected_day":                       "All",
     "date_range":                 (min_date, max_date),
+
+    "prdr_mid_hit_filter":                "All",
+    "adr_mid_hit_filter":                 "All",
+    "odr_mid_hit_filter":                 "All",
+
+    "prdr_mid_hit_filter_exclusion":      [],
+    "adr_mid_hit_filter_exclusion":       [],
+    "odr_mid_hit_filter_exclusion":       [],
+    
     "prdr_high_filter":                   "All", 
     "prdr_adr_transition_high_filter":    "All",
     "adr_high_filter":                    "All", 
@@ -310,7 +319,52 @@ with row4_cols[5]:
         options=["RDR"],
         key="odr_rdr_transition_low_filter_exclusion"
     )
+
+# MIDLINES
+st.markdown("### Session IDR Midlines Inclusions")
+row5_cols = st.columns([1, 1, 1])
+
+with row5_cols[0]:
+    prev_rdr_midline_hit = st.selectbox(
+        "PRDR Mid Touch",
+        options=["All"] + ["PRDR-ADR Transition", "ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        key="prdr_mid_hit_filter"
+    )
+with row5_cols[1]:
+    adr_midline_hit = st.selectbox(
+        "ADR Mid Touch",
+        options=["All"] + ["ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        key="adr_mid_hit_filter"
+    )
+with row5_cols[2]:
+    odr_midline_hit = st.selectbox(
+        "ODR Mid Touch",
+        options=["All"] + ["ODR-RDR Transition", "RDR"],
+        key="odr_mid_hit_filter"
+    )
     
+st.markdown("### Session IDR Midlines Exclusions")
+row6_cols = st.columns([1, 1, 1])
+with row6_cols[0]:
+    prev_rdr_midline_hit_exclusion = st.multiselect(
+        "PRDR Mid Touch",
+        options=["All"] + ["PRDR-ADR Transition", "ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        key="prdr_mid_hit_filter_exclusion"
+    )
+with row6_cols[1]:
+    adr_midline_hit_exclusion = st.multiselect(
+        "ADR Mid Touch",
+        options=["All"] + ["ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        key="adr_mid_hit_filter_exclusion"
+    )
+with row6_cols[2]:
+    odr_midline_hit_exclusion = st.multiselect(
+        "ODR Mid Touch",
+        options=["All"] + ["ODR-RDR Transition", "RDR"],
+        key="odr_mid_hit_filter_exclusion"
+    )
+
+
 # Apply filters
 st.markdown("### Distributions")
 
@@ -329,6 +383,10 @@ inclusion_map = {
     "adr_transition_low_touch_time_bucket":  "adr_odr_transition_low_filter",
     "odr_low_touch_time_bucket":             "odr_low_filter",
     "odr_transition_low_touch_time_bucket":  "odr_rdr_transition_low_filter",
+
+    "prev_rdr_idr_midline_touch_time_bucket":       "prdr_mid_hit_filter",
+    "adr_idr_midline_touch_time_bucket":       "adr_mid_hit_filter",
+    "odr_idr_midline_touch_time_bucket":       "odr_mid_hit_filter",
 }
 
 exclusion_map = {
@@ -345,6 +403,10 @@ exclusion_map = {
     "adr_transition_low_touch_time_bucket":  "adr_odr_transition_low_filter_exclusion",
     "odr_low_touch_time_bucket":             "odr_low_filter_exclusion",
     "odr_transition_low_touch_time_bucket":  "odr_rdr_transition_low_filter_exclusion",
+
+    "prev_rdr_idr_midline_touch_time_bucket":       "prdr_mid_hit_filter_exclusion",
+    "adr_idr_midline_touch_time_bucket":            "adr_mid_hit_filter_exclusion",
+    "odr_idr_midline_touch_time_bucket":            "odr_mid_hit_filter_exclusion",
 }
 
 
