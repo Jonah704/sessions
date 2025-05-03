@@ -294,8 +294,6 @@ with row4_cols[5]:
     )
     
 # Apply filters
-df_filtered = df.copy()
-
 st.markdown("### Distributions")
 
 # map each filter to its column
@@ -331,8 +329,20 @@ exclusion_map = {
     "odr_transition_low_touch_time_bucket": odr_transition_low_filter_exclusion,
 }
 
-# Apply filters
+# APPLY FILTERS
 df_filtered = df.copy()
+
+if selected_day != "All":
+    df_filtered = df_filtered[
+        df_filtered["date"].dt.day_name() == selected_day
+    ]
+
+start_date, end_date = st.session_state["date_range"]
+df_filtered = df_filtered[
+    (df_filtered["date"] >= pd.to_datetime(start_date)) &
+    (df_filtered["date"] <= pd.to_datetime(end_date))
+]
+
 for col, sel in inclusion_map.items():
     if sel != "all":                     # only filter when a real value is chosen
         df_filtered = df_filtered[df_filtered[col] == sel]
