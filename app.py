@@ -6,16 +6,8 @@ import plotly.express as px
 st.set_page_config(layout='wide')
 
 @st.cache_data
-def load_data_for_instrument(instrument: str, period: str = "1H") -> pd.DataFrame:
-    """
-    Load the 1-minute quartal file for a single instrument.
-    period must be "1H" or "3H".
-    """ 
+def load_data_for_instrument(instrument: str) -> pd.DataFrame:
     base = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main"
-    if period == "1H":
-        fname = f"{instrument}_Sessions_1min_Processed_from_2008.csv"
-    else:
-        raise ValueError("period must be '1H' or '3H'")
     url = f"{base}/{fname}"
     try:
         return pd.read_csv(url)
