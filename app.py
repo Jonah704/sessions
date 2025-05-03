@@ -86,7 +86,7 @@ min_date = df["date"].min().date()
 max_date = df["date"].max().date()
 start_date, end_date = st.sidebar.date_input(
     "Select date range:",
-    value=st.session_state.get("date_range", (min_date, max_date)),
+    value=(min_date, max_date),
     min_value=min_date,
     max_value=max_date,
     key="date_range"
@@ -412,7 +412,7 @@ for idx, col in enumerate(high_cols):
 
 # LOW touch‐time buckets
 low_cols = [
-    "prev_rdr_low_touch_time_bucket", 
+    "prev_rdr_low_touch_time_bucket",
     "pre_adr_low_touch_time_bucket",
     "adr_low_touch_time_bucket",
     "adr_transition_low_touch_time_bucket",
