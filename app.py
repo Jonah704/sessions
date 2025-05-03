@@ -175,7 +175,6 @@ segment_order_with_no = list(segments.keys()) + ["untouched"]
 
 # HIGH touch‐time buckets
 # HIGH touch‐time buckets
-st.markdown("## High-Touch Time Buckets")
 high_cols = [
     "prev_rdr_high_touch_time_bucket",
     "pre_adr_high_touch_time_bucket",
@@ -220,7 +219,6 @@ for idx, col in enumerate(high_cols):
 
 
 # LOW touch‐time buckets
-st.markdown("## Low-Touch Time Buckets")
 low_cols = [
     "prev_rdr_low_touch_time_bucket",
     "pre_adr_low_touch_time_bucket",
