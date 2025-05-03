@@ -154,7 +154,7 @@ with row2_cols[4]:
 with row2_cols[5]:
     odr_transition_low_filter = st.selectbox(
         "ODR Transition Low High Touch",
-        options=sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["All"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
     )
 
 # Apply filters
