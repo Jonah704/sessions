@@ -16,8 +16,6 @@ def load_data_for_instrument(instrument: str) -> pd.DataFrame:
         # fallback to empty DF if file not found or network hiccup
         return pd.DataFrame()
 
-# ↓ now pull exactly one file per timeframe:
-
 # ✅ Store username-password pairs
 USER_CREDENTIALS = {
     "badboyz": "bangbang",
@@ -80,9 +78,9 @@ else:
     st.sidebar.warning("No 'date' column found in your data!")
 
 
-# Sidebar
+# SIDEBAR
 day_options = ['All'] + ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-selected_day = st.sidebar.selectbox("Day of Week", day_options)
+selected_day = st.sidebar.selectbox("Day of Week", day_options, key="selected_day")
 
 min_date = df["date"].min().date()
 max_date = df["date"].max().date()
@@ -90,14 +88,49 @@ start_date, end_date = st.sidebar.date_input(
     "Select date range:",
     value=(min_date, max_date),
     min_value=min_date,
-    max_value=max_date
+    max_value=max_date,
+    key="date_range"
 )
 
+# RESET BUTTON
+default_filters = {
+    "selected_day":               "All",
+    "date_range":                 (min_date, max_date),
+    "prev_rdr_high_filter":       ["all"], 
+    "pre_adr_high_filter":        ["all"], 
+    "adr_high_filter":            ["all"], 
+    "adr_transition_high_filter": ["all"], 
+    "odr_high_filter":            ["all"], 
+    "odr_transition_high_filter": ["all"], 
+    "prev_rdr_low_filter":        ["all"], 
+    "pre_adr_low_filter":         ["all"], 
+    "adr_low_filter":             ["all"], 
+    "adr_transition_low_filter":  ["all"], 
+    "odr_low_filter":             ["all"], 
+    "odr_transition_low_filter":  ["all"], 
+    "prev_rdr_high_filter_exclusion":       [], 
+    "pre_adr_high_filter_exclusion":        [], 
+    "adr_high_filter_exclusion":            [],
+    "adr_transition_high_filter_exclusion": [],
+    "odr_high_filter_exclusion":            [],
+    "odr_transition_high_filter_exclusion": [], 
+    "prev_rdr_low_filter_exclusion":        [],
+    "pre_adr_low_filter_exclusion":         [],
+    "adr_low_filter_exclusion":             [],
+    "adr_transition_low_filter_exclusion":  [], 
+    "odr_low_filter_exclusion":             [], 
+    "odr_transition_low_filter_exclusion":  [],
+}
+
+if st.sidebar.button("🔄 Reset all filters"):
+    for key, default in default_filters.items():
+        st.session_state[key] = default
 if isinstance(start_date, tuple):
     # sometimes date_input returns a single date if you pass a single default
     start_date, end_date = start_date
 
-st.markdown("### Session High / Low Inclusion")
+# FILTERS
+st.markdown("### Session High / Low Inclusions")
 
 segment_order = list(segments.keys())          # ["pre_adr","adr","adr_transition",…,"rdr"]
 segment_order_with_no = segment_order + ["untouched"]
@@ -108,64 +141,76 @@ row2_cols = st.columns([1, 1, 1, 1, 1, 1])
 with row1_cols[0]:
     prev_rdr_high_filter = st.selectbox(
         "Previous RDR High Touch",
-        options=["all"] + sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="prev_rdr_high_filter"
     )
 with row1_cols[1]:
     pre_adr_high_filter = st.selectbox(
         "Pre ADR High Touch",
-        options=["all"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="pre_adr_high_filter"
     )
 with row1_cols[2]:
     adr_high_filter = st.selectbox(
         "ADR High Touch",
-        options=["all"] + sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="adr_high_filter"
     )
 with row1_cols[3]:
     adr_transition_high_filter = st.selectbox(
         "ADR Transition RDR High Touch",
-        options=["all"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="adr_transition_high_filter"
     )
 with row1_cols[4]:
     odr_high_filter = st.selectbox(
         "ODR RDR High Touch",
-        options=["all"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="odr_high_filter"
     )
 with row1_cols[5]:
     odr_transition_high_filter = st.selectbox(
         "ODR Transition RDR High Touch",
-        options=["all"] + sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="odr_transition_high_filter"
     )
 
 # Second Row
 with row2_cols[0]:
     prev_rdr_low_filter = st.selectbox(
         "Previous RDR Low Touch",
-        options=["all"] + sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="prev_rdr_low_filter"
     )
 with row2_cols[1]:
     pre_adr_low_filter = st.selectbox(
         "Pre ADR Low Touch",
-        options=["all"] + sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="pre_adr_low_filter"
     )
 with row2_cols[2]:
     adr_low_filter = st.selectbox(
         "ADR Low Touch",
-        options=["all"] + sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="adr_low_filter"
     )
 with row2_cols[3]:
     adr_transition_low_filter = st.selectbox(
         "ADR Transition RDR Low Touch",
-        options=["all"] + sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="adr_transition_low_filter"
     )
 with row2_cols[4]:
     odr_low_filter = st.selectbox(
         "ODR RDR Low Touch",
-        options=["all"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="odr_low_filter"
     )
 with row2_cols[5]:
     odr_transition_low_filter = st.selectbox(
         "ODR Transition Low High Touch",
-        options=["all"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="odr_transition_low_filter"
     )
 
 st.markdown("### Session High / Low Exclusions")
@@ -176,64 +221,76 @@ row4_cols = st.columns([1, 1, 1, 1, 1, 1])
 with row3_cols[0]:
     prev_rdr_high_filter_exclusion = st.multiselect(
         "Previous RDR High Touch",
-        options=["none"] + sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="prev_rdr_high_filter_exclusion"
     )
 with row3_cols[1]:
     pre_adr_high_filter_exclusion = st.multiselect(
         "Pre ADR High Touch",
-        options=["none"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="pre_adr_high_filter_exclusion"
     )
 with row3_cols[2]:
     adr_high_filter_exclusion = st.multiselect(
         "ADR High Touch",
-        options=["none"] + sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="adr_high_filter_exclusion"
     )
 with row3_cols[3]:
     adr_transition_high_filter_exclusion = st.multiselect(
         "ADR Transition RDR High Touch",
-        options=["none"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="adr_transition_high_filter_exclusion"
     )
 with row3_cols[4]:
     odr_high_filter_exclusion = st.multiselect(
         "ODR RDR High Touch",
-        options=["none"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="odr_high_filter_exclusion"
     )
 with row3_cols[5]:
     odr_transition_high_filter_exclusion = st.multiselect(
         "ODR Transition RDR High Touch",
-        options=["none"] + sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist()),
+        key="odr_transition_high_filter_exclusion"
     )
 
 # Second Row
 with row4_cols[0]:
     prev_rdr_low_filter_exclusion = st.multiselect(
         "Previous RDR Low Touch",
-        options=["none"] + sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="prev_rdr_low_filter_exclusion"
     )
 with row4_cols[1]:
     pre_adr_low_filter_exclusion = st.multiselect(
         "Pre ADR Low Touch",
-        options=["none"] + sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="pre_adr_low_filter_exclusion"
     )
 with row4_cols[2]:
     adr_low_filter_exclusion = st.multiselect(
         "ADR Low Touch",
-        options=["none"] + sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="adr_low_filter_exclusion"
     )
 with row4_cols[3]:
     adr_transition_low_filter_exclusion = st.multiselect(
         "ADR Transition RDR Low Touch",
-        options=["none"] + sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="adr_transition_low_filter_exclusion"
     )
 with row4_cols[4]:
     odr_low_filter_exclusion = st.multiselect(
         "ODR RDR Low Touch",
-        options=["none"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="odr_low_filter_exclusion"
     )
 with row4_cols[5]:
     odr_transition_low_filter_exclusion = st.multiselect(
         "ODR Transition Low High Touch",
-        options=["none"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist()),
+        key="odr_transition_low_filter_exclusion"
     )
     
 # Apply filters
