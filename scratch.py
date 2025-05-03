@@ -8,7 +8,7 @@ st.set_page_config(layout='wide')
 @st.cache_data
 def load_data_for_instrument(instrument: str) -> pd.DataFrame:
     base = "https://raw.githubusercontent.com/TuckerArrants/sessions/main"
-    fname = f"{instrument}_Session_Hits_Processed_from_2008.csv"
+    fname = f"{instrument}_Session_Hits_With_Mids_Processed_from_2008.csv"
     url = f"{base}/{fname}"
     try:
         return pd.read_csv(url)
