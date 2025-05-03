@@ -176,6 +176,7 @@ df_plot = df.copy()
 segment_order_with_no = list(segments.keys()) + ["untouched"]
 
 # HIGH touch‐time buckets
+# HIGH touch‐time buckets
 st.markdown("## High-Touch Time Buckets")
 high_cols = [
     "prev_rdr_high_touch_time_bucket",
@@ -197,7 +198,6 @@ high_titles = [
 row1 = st.columns(6)
 for idx, col in enumerate(high_cols):
     if col in df_plot:
-        # calculate normalized counts (percentages)
         counts = (
             df_plot[col]
             .value_counts(normalize=True)
@@ -206,17 +206,15 @@ for idx, col in enumerate(high_cols):
         perc = counts * 100
 
         fig = px.bar(
-            x=perc.values,
-            y=perc.index,
-            orientation="v",
+            x=perc.index,
+            y=perc.values,
             text=[f"{v:.1f}%" for v in perc.values],
-            labels={"x": "% of Sessions", "y": ""},
+            labels={"x": "", "y": "% of Sessions"},
             title=high_titles[idx],
         )
-        # push text outside, fix ordering
         fig.update_traces(textposition="outside")
         fig.update_layout(
-            yaxis={"categoryorder": "array", "categoryarray": segment_order_with_no},
+            xaxis={"categoryorder": "array", "categoryarray": segment_order_with_no},
             margin=dict(l=10, r=10, t=30, b=10),
         )
 
@@ -253,16 +251,15 @@ for idx, col in enumerate(low_cols):
         perc = counts * 100
 
         fig = px.bar(
-            x=perc.values,
-            y=perc.index,
-            orientation="v",
+            x=perc.index,
+            y=perc.values,
             text=[f"{v:.1f}%" for v in perc.values],
-            labels={"x": "% of Sessions", "y": ""},
+            labels={"x": "", "y": "% of Sessions"},
             title=low_titles[idx],
         )
         fig.update_traces(textposition="outside")
         fig.update_layout(
-            yaxis={"categoryorder": "array", "categoryarray": segment_order_with_no},
+            xaxis={"categoryorder": "array", "categoryarray": segment_order_with_no},
             margin=dict(l=10, r=10, t=30, b=10),
         )
 
