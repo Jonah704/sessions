@@ -79,7 +79,7 @@ else:
 
 
 # SIDEBAR
-day_options = ['All'] + ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+day_options = ['All'] + ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 selected_day = st.sidebar.selectbox("Day of Week", day_options, key="selected_day")
 
 min_date = df["date"].min().date()
@@ -334,7 +334,7 @@ df_filtered = df.copy()
 
 if selected_day != "All":
     df_filtered = df_filtered[
-        df_filtered["date"].dt.day_name() == selected_day
+        (df_filtered["date"] + pd.Timedelta(days=1)).dt.day_name() == selected_day
     ]
 
 start_date, end_date = st.session_state["date_range"]
