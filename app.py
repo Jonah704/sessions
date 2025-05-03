@@ -208,7 +208,7 @@ for idx, col in enumerate(high_cols):
         fig = px.bar(
             x=perc.values,
             y=perc.index,
-            orientation="h",
+            orientation="v",
             text=[f"{v:.1f}%" for v in perc.values],
             labels={"x": "% of Sessions", "y": ""},
             title=high_titles[idx],
@@ -255,7 +255,7 @@ for idx, col in enumerate(low_cols):
         fig = px.bar(
             x=perc.values,
             y=perc.index,
-            orientation="h",
+            orientation="v",
             text=[f"{v:.1f}%" for v in perc.values],
             labels={"x": "% of Sessions", "y": ""},
             title=low_titles[idx],
