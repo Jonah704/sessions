@@ -412,7 +412,7 @@ for idx, col in enumerate(high_cols):
 
 # LOW touch‐time buckets
 low_cols = [
-    "prev_rdr_low_touch_time_bucket",
+    "prev_rdr_low_touch_time_bucket", 
     "pre_adr_low_touch_time_bucket",
     "adr_low_touch_time_bucket",
     "adr_transition_low_touch_time_bucket",
