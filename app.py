@@ -160,6 +160,8 @@ with row2_cols[5]:
 # Apply filters
 df_filtered = df.copy()
 
+st.markdown("### Distributions")
+
 # map each filter to its column
 exclusion_map = {
     "prev_rdr_high_touch_time_bucket": prev_rdr_high_filter,
