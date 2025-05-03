@@ -89,7 +89,7 @@ if isinstance(start_date, tuple):
     # sometimes date_input returns a single date if you pass a single default
     start_date, end_date = start_date
 
-row1_cols = st.columns([1, 1, 1, 1, 1, 1]
+row1_cols = st.columns([1, 1, 1, 1, 1, 1])
 
     with row1_cols[0]:
         prev_rdr_high_filter = st.multiselect(
