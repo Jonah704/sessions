@@ -182,7 +182,7 @@ inclusion_map = {
 # Apply filters
 df_filtered = df.copy()
 for col, sel in inclusion_map.items():
-    if sel != "All":                     # only filter when a real value is chosen
+    if sel != "all":                     # only filter when a real value is chosen
         df_filtered = df_filtered[df_filtered[col] == sel]
         
 # Graphs
