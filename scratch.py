@@ -23,12 +23,12 @@ USER_CREDENTIALS = {
 }
 
 segments = {
-    "pre_adr":        (   0,  90),
-    "adr":            (  90, 480),
-    "adr_transition": ( 480, 540),
-    "odr":            ( 540, 870),
-    "odr_transition": ( 870, 930),
-    "rdr":            ( 930,1380),
+    "PRDR-ADR Transition":        (   0,  90),
+    "ADR":            (  90, 480),
+    "ADR-ODR Transition": ( 480, 540),
+    "ODR":            ( 540, 870),
+    "ODR-RDR Transition": ( 870, 930),
+    "RDR":            ( 930,1380),
 }
 
 # ✅ Initialize session state for authentication
@@ -70,6 +70,16 @@ selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
 
 df = load_data_for_instrument(selected_instrument)
 df['date'] = pd.to_datetime(df['session_date']).dt.date
+
+rename_map = {'pre_adr' : 'PRDR-ADR Transition',
+              'adr' : 'ADR',
+              'adr_transition' : 'ADR-ODR Transition',
+              'odr' : 'ODR',
+              'odr_transition' : 'ODR-RDR Transition',
+              'rdr' : 'RDR'
+}
+
+df = df.replace(rename_map)
 
 # 1) Make sure 'date' is a datetime column
 if "date" in df.columns:
