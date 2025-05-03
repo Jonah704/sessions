@@ -102,59 +102,59 @@ with row1_cols[0]:
 with row1_cols[1]:
     pre_adr_high_filter = st.selectbox(
         "Pre ADR High Touch",
-        options=["All"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row1_cols[2]:
     adr_high_filter = st.selectbox(
         "ADR High Touch",
-        options=["All"] + sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row1_cols[3]:
     adr_transition_high_filter = st.selectbox(
         "ADR Transition RDR High Touch",
-        options=["All"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row1_cols[4]:
     odr_high_filter = st.selectbox(
         "ODR RDR High Touch",
-        options=["All"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row1_cols[5]:
     odr_transition_high_filter = st.selectbox(
         "ODR Transition RDR High Touch",
-        options=["All"] + sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
     )
 
 # Second Row
 with row2_cols[0]:
     prev_rdr_low_filter = st.selectbox(
         "Previous RDR Low Touch",
-        options=["All"] + sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row2_cols[1]:
     pre_adr_low_filter = st.selectbox(
         "Pre ADR Low Touch",
-        options=["All"] + sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row2_cols[2]:
     adr_low_filter = st.selectbox(
         "ADR Low Touch",
-        options=["All"] + sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row2_cols[3]:
     adr_transition_low_filter = st.selectbox(
         "ADR Transition RDR Low Touch",
-        options=["All"] + sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row2_cols[4]:
     odr_low_filter = st.selectbox(
         "ODR RDR Low Touch",
-        options=["All"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row2_cols[5]:
     odr_transition_low_filter = st.selectbox(
         "ODR Transition Low High Touch",
-        options=["All"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
     )
 
 # Apply filters
