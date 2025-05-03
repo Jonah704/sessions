@@ -122,3 +122,35 @@ with row1_cols[5]:
         options=sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
     )
 
+# Second Row
+
+with row2_cols[0]:
+    prev_rdr_low_filter = st.multiselect(
+        "Previous RDR Low Touch",
+        options=sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row2_cols[1]:
+    pre_adr_low_filter = st.multiselect(
+        "Pre ADR Low Touch",
+        options=sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row2_cols[2]:
+    adr_low_filter = st.multiselect(
+        "ADR Low Touch",
+        options=sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row2_cols[3]:
+    adr_transition_low_filter = st.multiselect(
+        "ADR Transition RDR Low Touch",
+        options=sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row2_cols[4]:
+    odr_low_filter = st.multiselect(
+        "ODR RDR Low Touch",
+        options=sorted(df["odr_high_low_time_bucket"].dropna().unique().tolist())
+    )
+with row2_cols[5]:
+    odr_transition_low_filter = st.multiselect(
+        "ODR Transition Low High Touch",
+        options=sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+    )
