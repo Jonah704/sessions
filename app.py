@@ -148,7 +148,7 @@ with row2_cols[3]:
 with row2_cols[4]:
     odr_low_filter = st.multiselect(
         "ODR RDR Low Touch",
-        options=sorted(df["odr_low_time_bucket"].dropna().unique().tolist())
+        options=sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row2_cols[5]:
     odr_transition_low_filter = st.multiselect(
