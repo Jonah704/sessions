@@ -239,7 +239,7 @@ row4_cols = st.columns([1, 1, 1, 1, 1, 1])
 with row3_cols[0]:
     prev_rdr_high_filter_exclusion = st.multiselect(
         "PRDR High Touch",
-        options=["None"] + ["PRDR-ADR Transition", "ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        options=["PRDR-ADR Transition", "ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
         key="prdr_high_filter_exclusion"
     )
 with row3_cols[1]:
