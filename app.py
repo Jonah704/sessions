@@ -161,8 +161,6 @@ with row2_cols[5]:
 
 
 # Graphs
-st.markdown("## High-Touch Time Buckets")
-
 segments = {
     "pre_adr":        (   0,  90),
     "adr":            (  90, 480),
