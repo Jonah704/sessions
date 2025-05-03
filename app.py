@@ -58,7 +58,7 @@ if not st.session_state["authenticated"]:
 st.title("Sessions Database")
 
 # ↓ in your sidebar:
-instrument_options = ["ES", "NQ", "YM", "CL", "GC", "NG", "SI", "E6", "FDAX"]
+instrument_options = ["ES", "NQ", "YM", "CL", "GC", "NG", "HG", "SI", "E6", "FDAX"]
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
 
 df = load_data_for_instrument(selected_instrument)
