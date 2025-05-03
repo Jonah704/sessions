@@ -304,58 +304,63 @@ st.markdown("### Distributions")
 
 # map each filter to its column
 inclusion_map = {
-    "prev_rdr_high_touch_time_bucket": prev_rdr_high_filter,
-    "pre_adr_high_touch_time_bucket":  pre_adr_high_filter,
-    "adr_high_touch_time_bucket":      adr_high_filter,
-    "adr_transition_high_touch_time_bucket": adr_transition_high_filter,
-    "odr_high_touch_time_bucket":      odr_high_filter,
-    "odr_transition_high_touch_time_bucket": odr_transition_high_filter,
+    "prev_rdr_high_touch_time_bucket": "prev_rdr_high_filter",
+    "pre_adr_high_touch_time_bucket":  "pre_adr_high_filter",
+    "adr_high_touch_time_bucket":      "adr_high_filter",
+    "adr_transition_high_touch_time_bucket": "adr_transition_high_filter",
+    "odr_high_touch_time_bucket":      "odr_high_filter",
+    "odr_transition_high_touch_time_bucket": "odr_transition_high_filter",
 
-    "prev_rdr_low_touch_time_bucket":  prev_rdr_low_filter,
-    "pre_adr_low_touch_time_bucket":   pre_adr_low_filter,
-    "adr_low_touch_time_bucket":       adr_low_filter,
-    "adr_transition_low_touch_time_bucket": adr_transition_low_filter,
-    "odr_low_touch_time_bucket":       odr_low_filter,
-    "odr_transition_low_touch_time_bucket": odr_transition_low_filter,
+    "prev_rdr_low_touch_time_bucket":  "prev_rdr_low_filter",
+    "pre_adr_low_touch_time_bucket":   "pre_adr_low_filter",
+    "adr_low_touch_time_bucket":       "adr_low_filter",
+    "adr_transition_low_touch_time_bucket": "adr_transition_low_filter",
+    "odr_low_touch_time_bucket":       "odr_low_filter",
+    "odr_transition_low_touch_time_bucket": "odr_transition_low_filter",
 }
 
 exclusion_map = {
-    "prev_rdr_high_touch_time_bucket": prev_rdr_high_filter_exclusion,
-    "pre_adr_high_touch_time_bucket":  pre_adr_high_filter_exclusion,
-    "adr_high_touch_time_bucket":      adr_high_filter_exclusion,
-    "adr_transition_high_touch_time_bucket": adr_transition_high_filter_exclusion,
-    "odr_high_touch_time_bucket":      odr_high_filter_exclusion,
-    "odr_transition_high_touch_time_bucket": odr_transition_high_filter_exclusion,
+    "prev_rdr_high_touch_time_bucket": "prev_rdr_high_filter_exclusion",
+    "pre_adr_high_touch_time_bucket":  "pre_adr_high_filter_exclusion",
+    "adr_high_touch_time_bucket":      "adr_high_filter_exclusion",
+    "adr_transition_high_touch_time_bucket": "adr_transition_high_filter_exclusion",
+    "odr_high_touch_time_bucket":      "odr_high_filter_exclusion",
+    "odr_transition_high_touch_time_bucket": "odr_transition_high_filter_exclusion",
 
-    "prev_rdr_low_touch_time_bucket":  prev_rdr_low_filter_exclusion,
-    "pre_adr_low_touch_time_bucket":   pre_adr_low_filter_exclusion,
-    "adr_low_touch_time_bucket":       adr_low_filter_exclusion,
-    "adr_transition_low_touch_time_bucket": adr_transition_low_filter_exclusion,
-    "odr_low_touch_time_bucket":       odr_low_filter_exclusion,
-    "odr_transition_low_touch_time_bucket": odr_transition_low_filter_exclusion,
+    "prev_rdr_low_touch_time_bucket":  "prev_rdr_low_filter_exclusion",
+    "pre_adr_low_touch_time_bucket":   "pre_adr_low_filter_exclusion",
+    "adr_low_touch_time_bucket":       "adr_low_filter_exclusion",
+    "adr_transition_low_touch_time_bucket": "adr_transition_low_filter_exclusion",
+    "odr_low_touch_time_bucket":       "odr_low_filter_exclusion",
+    "odr_transition_low_touch_time_bucket": "odr_transition_low_filter_exclusion",
 }
 
 # APPLY FILTERS
 df_filtered = df.copy()
 
-if selected_day != "All":
+# — Day-of-week (shifted by +1 day) —
+sel_day = st.session_state["selected_day"]
+if sel_day != "All":
     df_filtered = df_filtered[
-        (df_filtered["date"] + pd.Timedelta(days=1)).dt.day_name() == selected_day
+        (df_filtered["date"] + pd.Timedelta(days=1)).dt.day_name() == sel_day
     ]
 
+# — Date range —
 start_date, end_date = st.session_state["date_range"]
 df_filtered = df_filtered[
     (df_filtered["date"] >= pd.to_datetime(start_date)) &
     (df_filtered["date"] <= pd.to_datetime(end_date))
 ]
 
-for col, sel in inclusion_map.items():
-    if sel != "all":                     # only filter when a real value is chosen
+for col, state_key in inclusion_map.items():
+    sel = st.session_state[state_key]
+    if sel != "All":
         df_filtered = df_filtered[df_filtered[col] == sel]
 
-for col, exclude_vals in exclusion_map.items():
-    if exclude_vals:  # non-empty list → drop those rows
-        df_filtered = df_filtered[~df_filtered[col].isin(exclude_vals)]
+for col, state_key in exclusion_map.items():
+    excludes = st.session_state[state_key]
+    if excludes:
+        df_filtered = df_filtered[~df_filtered[col].isin(excludes)]
         
 # GRAPHS
 df_plot = df.copy()
