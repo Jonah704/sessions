@@ -76,7 +76,8 @@ rename_map = {'pre_adr' : 'PRDR-ADR Transition',
               'adr_transition' : 'ADR-ODR Transition',
               'odr' : 'ODR',
               'odr_transition' : 'ODR-RDR Transition',
-              'rdr' : 'RDR'
+              'rdr' : 'RDR',
+              'untouched' : 'Untouched',
 }
 
 df = df.replace(rename_map)
@@ -158,31 +159,31 @@ row2_cols = st.columns([1, 1, 1, 1, 1, 1])
 with row1_cols[0]:
     prev_rdr_high_filter = st.selectbox(
         "PRDR High Touch",
-        options=["all"] + ["pre_adr", ],
+        options=["All"] + ["PRDR-ADR Transition", "ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
         key="prdr_high_filter"
     )
 with row1_cols[1]:
     pre_adr_high_filter = st.selectbox(
         "PRDR-ADR Transition High Touch",
-        options=["all"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist()),
+        options=["All"] + ["ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
         key="prdr_adr_transition_high_filter"
     )
 with row1_cols[2]:
     adr_high_filter = st.selectbox(
         "ADR High Touch",
-        options=["all"] + sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist()),
+        options=["All"] + ["ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
         key="adr_high_filter"
     )
 with row1_cols[3]:
     adr_transition_high_filter = st.selectbox(
         "ADR-ODR Transition High Touch",
-        options=["all"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist()),
+        options=["All"] + ["ODR", "ODR-RDR Transition", "RDR"]
         key="adr_odr_transition_high_filter"
     )
 with row1_cols[4]:
     odr_high_filter = st.selectbox(
         "ODR High Touch",
-        options=["all"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist()),
+        options=["All"] + ["ODR-RDR Transition", "RDR"],
         key="odr_high_filter"
     )
 with row1_cols[5]:
