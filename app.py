@@ -8,7 +8,7 @@ st.set_page_config(layout='wide')
 @st.cache_data
 def load_data_for_instrument(instrument: str) -> pd.DataFrame:
     base = "https://raw.githubusercontent.com/TuckerArrants/sessions/main"
-    fname = f"{instrument}_Session_Hits_Processed_from_2008.csv"
+    fname = f"{instrument}_Session_Hits_With_Mids_Processed_from_2008.csv"
     url = f"{base}/{fname}"
     try:
         return pd.read_csv(url)
@@ -107,6 +107,15 @@ start_date, end_date = st.sidebar.date_input(
 default_filters = {
     "selected_day":                       "All",
     "date_range":                 (min_date, max_date),
+
+    "prdr_mid_hit_filter":                "All",
+    "adr_mid_hit_filter":                 "All",
+    "odr_mid_hit_filter":                 "All",
+
+    "prdr_mid_hit_filter_exclusion":      [],
+    "adr_mid_hit_filter_exclusion":       [],
+    "odr_mid_hit_filter_exclusion":       [],
+    
     "prdr_high_filter":                   "All", 
     "prdr_adr_transition_high_filter":    "All",
     "adr_high_filter":                    "All", 
@@ -310,7 +319,52 @@ with row4_cols[5]:
         options=["RDR"],
         key="odr_rdr_transition_low_filter_exclusion"
     )
+
+# MIDLINES
+st.markdown("### Session IDR Midlines Inclusions")
+row5_cols = st.columns([1, 1, 1])
+
+with row5_cols[0]:
+    prev_rdr_midline_hit = st.selectbox(
+        "PRDR Mid Touch",
+        options=["All"] + ["PRDR-ADR Transition", "ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        key="prdr_mid_hit_filter"
+    )
+with row5_cols[1]:
+    adr_midline_hit = st.selectbox(
+        "ADR Mid Touch",
+        options=["All"] + ["ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        key="adr_mid_hit_filter"
+    )
+with row5_cols[2]:
+    odr_midline_hit = st.selectbox(
+        "ODR Mid Touch",
+        options=["All"] + ["ODR-RDR Transition", "RDR"],
+        key="odr_mid_hit_filter"
+    )
     
+st.markdown("### Session IDR Midlines Exclusions")
+row6_cols = st.columns([1, 1, 1])
+with row6_cols[0]:
+    prev_rdr_midline_hit_exclusion = st.multiselect(
+        "PRDR Mid Touch",
+        options=["PRDR-ADR Transition", "ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        key="prdr_mid_hit_filter_exclusion"
+    )
+with row6_cols[1]:
+    adr_midline_hit_exclusion = st.multiselect(
+        "ADR Mid Touch",
+        options=["ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        key="adr_mid_hit_filter_exclusion"
+    )
+with row6_cols[2]:
+    odr_midline_hit_exclusion = st.multiselect(
+        "ODR Mid Touch",
+        options=["ODR-RDR Transition", "RDR"],
+        key="odr_mid_hit_filter_exclusion"
+    )
+
+
 # Apply filters
 st.markdown("### Distributions")
 
@@ -329,6 +383,10 @@ inclusion_map = {
     "adr_transition_low_touch_time_bucket":  "adr_odr_transition_low_filter",
     "odr_low_touch_time_bucket":             "odr_low_filter",
     "odr_transition_low_touch_time_bucket":  "odr_rdr_transition_low_filter",
+
+    "prev_rdr_idr_midline_touch_time_bucket":       "prdr_mid_hit_filter",
+    "adr_idr_midline_touch_time_bucket":       "adr_mid_hit_filter",
+    "odr_idr_midline_touch_time_bucket":       "odr_mid_hit_filter",
 }
 
 exclusion_map = {
@@ -345,6 +403,10 @@ exclusion_map = {
     "adr_transition_low_touch_time_bucket":  "adr_odr_transition_low_filter_exclusion",
     "odr_low_touch_time_bucket":             "odr_low_filter_exclusion",
     "odr_transition_low_touch_time_bucket":  "odr_rdr_transition_low_filter_exclusion",
+
+    "prev_rdr_idr_midline_touch_time_bucket":       "prdr_mid_hit_filter_exclusion",
+    "adr_idr_midline_touch_time_bucket":            "adr_mid_hit_filter_exclusion",
+    "odr_idr_midline_touch_time_bucket":            "odr_mid_hit_filter_exclusion",
 }
 
 
@@ -378,6 +440,45 @@ for col, state_key in exclusion_map.items():
 # GRAPHS
 df_plot = df.copy()
 
+# MIDS touch-time buckets
+mid_cols = [
+    "prev_rdr_idr_midline_touch_time_bucket",
+    "adr_idr_midline_touch_time_bucket",
+    "odr_idr_midline_touch_time_bucket",
+]
+mid_titles = [
+    "PRDR Mid",
+    "ADR Mid",
+    "ODR Mid",
+]
+
+row1 = st.columns(3)
+for idx, col in enumerate(mid_cols):
+    if col in df_filtered:
+        counts = (
+            df_filtered[col]
+            .value_counts(normalize=True)
+            .reindex(segment_order_with_no, fill_value=0)
+        )
+        perc = counts * 100
+
+        fig = px.bar(
+            x=perc.index,
+            y=perc.values,
+            text=[f"{v:.1f}%" for v in perc.values],
+            labels={"x": "", "y": "% of Sessions"},
+            title=mid_titles[idx],
+        )
+        fig.update_traces(textposition="outside")
+        fig.update_layout(
+            xaxis={"categoryorder": "array", "categoryarray": segment_order_with_no},
+            margin=dict(l=10, r=10, t=30, b=10),
+        )
+
+        row1[idx].plotly_chart(fig, use_container_width=True)
+
+
+
 # HIGH touch‐time buckets
 high_cols = [
     "prev_rdr_high_touch_time_bucket",
@@ -388,7 +489,7 @@ high_cols = [
     "odr_transition_high_touch_time_bucket",
 ]
 high_titles = [
-    "Previous RDR High",
+    "PRDR High",
     "PRDR-ADR Transition High",
     "ADR High",
     "ADR-ODR Transition High",
@@ -396,7 +497,7 @@ high_titles = [
     "ODR-RDR Transition High",
 ]
 
-row1 = st.columns(6)
+row2 = st.columns(6)
 for idx, col in enumerate(high_cols):
     if col in df_filtered:
         counts = (
@@ -419,7 +520,7 @@ for idx, col in enumerate(high_cols):
             margin=dict(l=10, r=10, t=30, b=10),
         )
 
-        row1[idx].plotly_chart(fig, use_container_width=True)
+        row2[idx].plotly_chart(fig, use_container_width=True)
 
 
 # LOW touch‐time buckets
@@ -440,7 +541,7 @@ low_titles = [
     "ODR-RDR Transition Low",
 ]
 
-row2 = st.columns(6)
+row3 = st.columns(6)
 for idx, col in enumerate(low_cols):
     if col in df_filtered:
         counts = (
@@ -463,6 +564,6 @@ for idx, col in enumerate(low_cols):
             margin=dict(l=10, r=10, t=30, b=10),
         )
 
-        row2[idx].plotly_chart(fig, use_container_width=True)
+        row3[idx].plotly_chart(fig, use_container_width=True)
 
 st.caption(f"Sample size: {len(df_filtered):,} rows")
