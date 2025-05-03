@@ -24,6 +24,15 @@ USER_CREDENTIALS = {
     "dreamteam" : "strike",
 }
 
+segments = {
+    "pre_adr":        (   0,  90),
+    "adr":            (  90, 480),
+    "adr_transition": ( 480, 540),
+    "odr":            ( 540, 870),
+    "odr_transition": ( 870, 930),
+    "rdr":            ( 930,1380),
+}
+
 # ✅ Initialize session state for authentication
 if "authenticated" not in st.session_state:
     st.session_state["authenticated"] = False
@@ -72,7 +81,6 @@ else:
 
 
 # Sidebar
-
 day_options = ['All'] + ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 selected_day = st.sidebar.selectbox("Day of Week", day_options)
 
@@ -84,12 +92,15 @@ start_date, end_date = st.sidebar.date_input(
     min_value=min_date,
     max_value=max_date
 )
-# 3) Filter your DataFrame
+
 if isinstance(start_date, tuple):
     # sometimes date_input returns a single date if you pass a single default
     start_date, end_date = start_date
 
 st.markdown("### Session High / Low Inclusion")
+
+segment_order = list(segments.keys())          # ["pre_adr","adr","adr_transition",…,"rdr"]
+segment_order_with_no = segment_order + ["untouched"]
 
 row1_cols = st.columns([1, 1, 1, 1, 1, 1])
 row2_cols = st.columns([1, 1, 1, 1, 1, 1])
@@ -157,6 +168,74 @@ with row2_cols[5]:
         options=["all"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
     )
 
+st.markdown("### Session High / Low Exclusions")
+
+row3_cols = st.columns([1, 1, 1, 1, 1, 1])
+row4_cols = st.columns([1, 1, 1, 1, 1, 1])
+
+with row3_cols[0]:
+    prev_rdr_high_filter_exclusion = st.multiselect(
+        "Previous RDR High Touch",
+        options=["none"] + sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row3_cols[1]:
+    pre_adr_high_filter_exclusion = st.multiselect(
+        "Pre ADR High Touch",
+        options=["none"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row3_cols[2]:
+    adr_high_filter_exclusion = st.multiselect(
+        "ADR High Touch",
+        options=["none"] + sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row3_cols[3]:
+    adr_transition_high_filter_exclusion = st.multiselect(
+        "ADR Transition RDR High Touch",
+        options=["none"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row3_cols[4]:
+    odr_high_filter_exclusion = st.multiselect(
+        "ODR RDR High Touch",
+        options=["none"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row3_cols[5]:
+    odr_transition_high_filter_exclusion = st.multiselect(
+        "ODR Transition RDR High Touch",
+        options=["none"] + sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+    )
+
+# Second Row
+with row4_cols[0]:
+    prev_rdr_low_filter_exclusion = st.multiselect(
+        "Previous RDR Low Touch",
+        options=["none"] + sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row4_cols[1]:
+    pre_adr_low_filter_exclusion = st.multiselect(
+        "Pre ADR Low Touch",
+        options=["none"] + sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row4_cols[2]:
+    adr_low_filter_exclusion = st.multiselect(
+        "ADR Low Touch",
+        options=["none"] + sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row4_cols[3]:
+    adr_transition_low_filter_exclusion = st.multiselect(
+        "ADR Transition RDR Low Touch",
+        options=["none"] + sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row4_cols[4]:
+    odr_low_filter_exclusion = st.multiselect(
+        "ODR RDR Low Touch",
+        options=["none"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row4_cols[5]:
+    odr_transition_low_filter_exclusion = st.multiselect(
+        "ODR Transition Low High Touch",
+        options=["none"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+    )
+    
 # Apply filters
 df_filtered = df.copy()
 
@@ -179,24 +258,34 @@ inclusion_map = {
     "odr_transition_low_touch_time_bucket": odr_transition_low_filter,
 }
 
+exclusion_map = {
+    "prev_rdr_high_touch_time_bucket": prev_rdr_high_filter_exclusion,
+    "pre_adr_high_touch_time_bucket":  pre_adr_high_filter_exclusion,
+    "adr_high_touch_time_bucket":      adr_high_filter_exclusion,
+    "adr_transition_high_touch_time_bucket": adr_transition_high_filter_exclusion,
+    "odr_high_touch_time_bucket":      odr_high_filter_exclusion,
+    "odr_transition_high_touch_time_bucket": odr_transition_high_filter_exclusion,
+
+    "prev_rdr_low_touch_time_bucket":  prev_rdr_low_filter_exclusion,
+    "pre_adr_low_touch_time_bucket":   pre_adr_low_filter_exclusion,
+    "adr_low_touch_time_bucket":       adr_low_filter_exclusion,
+    "adr_transition_low_touch_time_bucket": adr_transition_low_filter_exclusion,
+    "odr_low_touch_time_bucket":       odr_low_filter_exclusion,
+    "odr_transition_low_touch_time_bucket": odr_transition_low_filter_exclusion,
+}
+
 # Apply filters
 df_filtered = df.copy()
 for col, sel in inclusion_map.items():
     if sel != "all":                     # only filter when a real value is chosen
         df_filtered = df_filtered[df_filtered[col] == sel]
-        
-# Graphs
-segments = {
-    "pre_adr":        (   0,  90),
-    "adr":            (  90, 480),
-    "adr_transition": ( 480, 540),
-    "odr":            ( 540, 870),
-    "odr_transition": ( 870, 930),
-    "rdr":            ( 930,1380),
-}
 
+for col, exclude_vals in exclusion_map.items():
+    if exclude_vals:  # non-empty list → drop those rows
+        df_filtered = df_filtered[~df_filtered[col].isin(exclude_vals)]
+        
+# GRAPHS
 df_plot = df.copy()
-segment_order_with_no = list(segments.keys()) + ["untouched"]
 
 # HIGH touch‐time buckets
 # HIGH touch‐time buckets
