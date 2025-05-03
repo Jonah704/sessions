@@ -214,7 +214,7 @@ with row2_cols[4]:
     )
 with row2_cols[5]:
     odr_transition_low_filter = st.selectbox(
-        "ODR Transition Low High Touch",
+        "ODR Transition Low Touch",
         options=["all"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist()),
         key="odr_transition_low_filter"
     )
@@ -294,7 +294,7 @@ with row4_cols[4]:
     )
 with row4_cols[5]:
     odr_transition_low_filter_exclusion = st.multiselect(
-        "ODR Transition Low High Touch",
+        "ODR Transition Low Touch",
         options=["none"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist()),
         key="odr_transition_low_filter_exclusion"
     )
