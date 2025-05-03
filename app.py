@@ -164,7 +164,7 @@ with row1_cols[2]:
     )
 with row1_cols[3]:
     adr_transition_high_filter = st.selectbox(
-        "ADR Transition RDR High Touch",
+        "ADR Transition High Touch",
         options=["all"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist()),
         key="adr_transition_high_filter"
     )
@@ -202,7 +202,7 @@ with row2_cols[2]:
     )
 with row2_cols[3]:
     adr_transition_low_filter = st.selectbox(
-        "ADR Transition RDR Low Touch",
+        "ADR Transition Low Touch",
         options=["all"] + sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist()),
         key="adr_transition_low_filter"
     )
