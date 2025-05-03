@@ -159,7 +159,7 @@ with row1_cols[0]:
     prev_rdr_high_filter = st.selectbox(
         "PRDR High Touch",
         options=["all"] + ["pre_adr", ],
-        key="prev_rdr_high_filter"
+        key="prdr_high_filter"
     )
 with row1_cols[1]:
     pre_adr_high_filter = st.selectbox(
@@ -245,7 +245,7 @@ with row3_cols[1]:
     pre_adr_high_filter_exclusion = st.multiselect(
         "PRDR-ADR Transition High Touch",
         options=["none"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist()),
-        key="padr_adr_transition_high_filter_exclusion"
+        key="prdr_adr_transition_high_filter_exclusion"
     )
 with row3_cols[2]:
     adr_high_filter_exclusion = st.multiselect(
