@@ -189,7 +189,7 @@ with row1_cols[4]:
 with row1_cols[5]:
     odr_transition_high_filter = st.selectbox(
         "ODR-RDR Transition High Touch",
-        options=["All"] + ["RDR"],,
+        options=["All"] + ["RDR"],
         key="odr_rdr_transition_high_filter"
     )
 
