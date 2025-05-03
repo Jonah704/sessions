@@ -24,6 +24,15 @@ USER_CREDENTIALS = {
     "dreamteam" : "strike",
 }
 
+segments = {
+    "pre_adr":        (   0,  90),
+    "adr":            (  90, 480),
+    "adr_transition": ( 480, 540),
+    "odr":            ( 540, 870),
+    "odr_transition": ( 870, 930),
+    "rdr":            ( 930,1380),
+}
+
 # ✅ Initialize session state for authentication
 if "authenticated" not in st.session_state:
     st.session_state["authenticated"] = False
@@ -72,7 +81,6 @@ else:
 
 
 # Sidebar
-
 day_options = ['All'] + ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 selected_day = st.sidebar.selectbox("Day of Week", day_options)
 
@@ -84,12 +92,15 @@ start_date, end_date = st.sidebar.date_input(
     min_value=min_date,
     max_value=max_date
 )
-# 3) Filter your DataFrame
+
 if isinstance(start_date, tuple):
     # sometimes date_input returns a single date if you pass a single default
     start_date, end_date = start_date
 
 st.markdown("### Session High / Low Inclusion")
+
+segment_order = list(segments.keys())          # ["pre_adr","adr","adr_transition",…,"rdr"]
+segment_order_with_no = segment_order + ["untouched"]
 
 row1_cols = st.columns([1, 1, 1, 1, 1, 1])
 row2_cols = st.columns([1, 1, 1, 1, 1, 1])
@@ -273,18 +284,8 @@ for col, exclude_vals in exclusion_map.items():
     if exclude_vals:  # non-empty list → drop those rows
         df_filtered = df_filtered[~df_filtered[col].isin(exclude_vals)]
         
-# Graphs
-segments = {
-    "pre_adr":        (   0,  90),
-    "adr":            (  90, 480),
-    "adr_transition": ( 480, 540),
-    "odr":            ( 540, 870),
-    "odr_transition": ( 870, 930),
-    "rdr":            ( 930,1380),
-}
-
+# GRAPHS
 df_plot = df.copy()
-segment_order_with_no = list(segments.keys()) + ["untouched"]
 
 # HIGH touch‐time buckets
 # HIGH touch‐time buckets
