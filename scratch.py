@@ -163,64 +163,64 @@ row3_cols = st.columns([1, 1, 1, 1, 1, 1])
 row4_cols = st.columns([1, 1, 1, 1, 1, 1])
 
 with row3_cols[0]:
-    prev_rdr_high_filter = st.selectbox(
+    prev_rdr_high_filter_exclusion, = st.selectbox(
         "Previous RDR High Touch",
         options=["all"] + sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row3_cols[1]:
-    pre_adr_high_filter = st.selectbox(
+    pre_adr_high_filter_exclusion, = st.selectbox(
         "Pre ADR High Touch",
         options=["all"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row3_cols[2]:
-    adr_high_filter = st.selectbox(
+    adr_high_filter_exclusion, = st.selectbox(
         "ADR High Touch",
         options=["all"] + sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row3_cols[3]:
-    adr_transition_high_filter = st.selectbox(
+    adr_transition_high_filter_exclusion, = st.selectbox(
         "ADR Transition RDR High Touch",
         options=["all"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row3_cols[4]:
-    odr_high_filter = st.selectbox(
+    odr_high_filter_exclusion, = st.selectbox(
         "ODR RDR High Touch",
         options=["all"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row3_cols[5]:
-    odr_transition_high_filter = st.selectbox(
+    odr_transition_high_filter_exclusion, = st.selectbox(
         "ODR Transition RDR High Touch",
         options=["all"] + sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
     )
 
 # Second Row
 with row4_cols[0]:
-    prev_rdr_low_filter = st.selectbox(
+    prev_rdr_low_filter_exclusion, = st.selectbox(
         "Previous RDR Low Touch",
         options=["all"] + sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row4_cols[1]:
-    pre_adr_low_filter = st.selectbox(
+    pre_adr_low_filter_exclusion, = st.selectbox(
         "Pre ADR Low Touch",
         options=["all"] + sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row4_cols[2]:
-    adr_low_filter = st.selectbox(
+    adr_low_filter_exclusion, = st.selectbox(
         "ADR Low Touch",
         options=["all"] + sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row4_cols[3]:
-    adr_transition_low_filter = st.selectbox(
+    adr_transition_low_filter_exclusion, = st.selectbox(
         "ADR Transition RDR Low Touch",
         options=["all"] + sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row4_cols[4]:
-    odr_low_filter = st.selectbox(
+    odr_low_filter_exclusion, = st.selectbox(
         "ODR RDR Low Touch",
         options=["all"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row4_cols[5]:
-    odr_transition_low_filter = st.selectbox(
+    odr_transition_low_filter_exclusion, = st.selectbox(
         "ODR Transition Low High Touch",
         options=["all"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
     )
@@ -245,6 +245,22 @@ inclusion_map = {
     "adr_transition_low_touch_time_bucket": adr_transition_low_filter,
     "odr_low_touch_time_bucket":       odr_low_filter,
     "odr_transition_low_touch_time_bucket": odr_transition_low_filter,
+}
+
+exclusion_map = {
+    "prev_rdr_high_touch_time_bucket": prev_rdr_high_filter_exclusion,
+    "pre_adr_high_touch_time_bucket":  pre_adr_high_filter_exclusion,
+    "adr_high_touch_time_bucket":      adr_high_filter_exclusion,
+    "adr_transition_high_touch_time_bucket": adr_transition_high_filter_exclusion,
+    "odr_high_touch_time_bucket":      odr_high_filter_exclusion,
+    "odr_transition_high_touch_time_bucket": odr_transition_high_filter_exclusion,
+
+    "prev_rdr_low_touch_time_bucket":  prev_rdr_low_filter_exclusion,
+    "pre_adr_low_touch_time_bucket":   pre_adr_low_filter_exclusion,
+    "adr_low_touch_time_bucket":       adr_low_filter_exclusion,
+    "adr_transition_low_touch_time_bucket": adr_transition_low_filter_exclusion,
+    "odr_low_touch_time_bucket":       odr_low_filter_exclusion,
+    "odr_transition_low_touch_time_bucket": odr_transition_low_filter_exclusion,
 }
 
 # Apply filters
