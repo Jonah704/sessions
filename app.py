@@ -162,6 +162,16 @@ with row2_cols[5]:
 
 # Graphs
 st.markdown("## High-Touch Time Buckets")
+
+segments = {
+    "pre_adr":        (   0,  90),
+    "adr":            (  90, 480),
+    "adr_transition": ( 480, 540),
+    "odr":            ( 540, 870),
+    "odr_transition": ( 870, 930),
+    "rdr":            ( 930,1380),
+}
+
 df_plot = df.copy()
 high_cols = [
     "prev_rdr_high_touch_time_bucket",
