@@ -160,8 +160,6 @@ with row2_cols[5]:
 # Apply filters
 
 
-
-
 # Graphs
 st.markdown("## High-Touch Time Buckets")
 df_plot = df.copy()
