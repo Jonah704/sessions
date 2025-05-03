@@ -68,7 +68,8 @@ st.title("Sessions Database")
 instrument_options = ["ES", "NQ", "YM", "CL", "GC", "NG", "SI", "E6", "FDAX"]
 selected_instrument = st.sidebar.selectbox("Instrument", instrument_options)
 
-df_1h = load_data_for_instrument(selected_instrument, period="1H")
+df = load_data_for_instrument(selected_instrument)
+df['date'] = pd.to_datetime(df['time'].dt.date
 
 # 1) Make sure 'date' is a datetime column
 if "date" in df_1h.columns:
