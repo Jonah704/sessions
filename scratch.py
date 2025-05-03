@@ -203,7 +203,7 @@ with row2_cols[1]:
     pre_adr_low_filter = st.selectbox(
         "PRDR-ADR Transition Low Touch",
         options=["all"] + sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist()),
-        key="pdr_adr_transition_low_filter"
+        key="prdr_adr_transition_low_filter"
     )
 with row2_cols[2]:
     adr_low_filter = st.selectbox(
@@ -318,7 +318,7 @@ inclusion_map = {
     "prdr_high_touch_time_bucket": "prdr_high_filter",
     "prdr_adr_transition_high_touch_time_bucket":  "prdr_adr_transition_high_filter",
     "adr_high_touch_time_bucket":      "adr_high_filter",
-    "adr_odr_transition_high_touch_time_bucket": "prdr_adr_transition_high_filter",
+    "adr_odr_transition_high_touch_time_bucket": "adr_odr_transition_high_filter",
     "odr_high_touch_time_bucket":      "odr_high_filter",
     "odr_rdr_transition_high_touch_time_bucket": "odr_rdr_transition_high_filter",
 
@@ -334,7 +334,7 @@ exclusion_map = {
     "prdr_high_touch_time_bucket_exclusion": "prdr_high_filter_exclusion",
     "prdr_adr_transition_high_touch_time_bucket_exclusion":  "prdr_adr_transition_high_filter_exclusion",
     "adr_high_touch_time_bucket_exclusion":      "adr_high_filter_exclusion",
-    "adr_odr_transition_high_touch_time_bucket_exclusion": "prdr_adr_transition_high_filter_exclusion",
+    "adr_odr_transition_high_touch_time_bucket_exclusion": "adr_odr_transition_high_filter_exclusion",
     "odr_high_touch_time_bucket_exclusion":      "odr_high_filter_exclusion",
     "odr_rdr_transition_high_touch_time_bucket_exclusion": "odr_rdr_transition_high_filter_exclusion",
 
