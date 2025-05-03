@@ -62,7 +62,7 @@ if not st.session_state["authenticated"]:
     st.stop()
 
 # ✅ If authenticated, show the full app
-st.title("Trompeten Kosten Geld")
+st.title("Trompete Kostet Knete")
 
 # ↓ in your sidebar:
 instrument_options = ["ES", "NQ", "YM", "CL", "GC", "NG", "HG", "SI", "E6", "FDAX"]
