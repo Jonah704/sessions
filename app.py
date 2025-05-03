@@ -156,3 +156,71 @@ with row2_cols[5]:
         "ODR Transition Low High Touch",
         options=sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
     )
+
+# Apply filters
+
+
+
+
+# Graphs
+st.markdown("## High-Touch Time Buckets")
+df_plot = df.copy()
+high_cols = [
+    "prev_rdr_high_touch_time_bucket",
+    "pre_adr_high_touch_time_bucket",
+    "adr_high_touch_time_bucket",
+    "adr_transition_high_touch_time_bucket",
+    "odr_high_touch_time_bucket",
+    "odr_transition_high_touch_time_bucket",
+]
+high_titles = [
+    "Previous RDR High",
+    "Pre-ADR High",
+    "ADR High",
+    "ADR-Transition High",
+    "ODR High",
+    "ODR-Transition High",
+]
+
+row1 = st.columns(6)
+for idx, col in enumerate(high_cols):
+    if col in df_plot:
+        fig = px.histogram(
+            df_plot,
+            x=col,
+            title=high_titles[idx],
+            labels={col: ""},
+            category_orders={col: list(segments.keys()) + ["No touch"]},
+        )
+        row1[idx].plotly_chart(fig, use_container_width=True)
+
+# LOW touch‐time buckets
+st.markdown("## Low-Touch Time Buckets")
+low_cols = [
+    "prev_rdr_low_touch_time_bucket",
+    "pre_adr_low_touch_time_bucket",
+    "adr_low_touch_time_bucket",
+    "adr_transition_low_touch_time_bucket",
+    "odr_low_touch_time_bucket",
+    "odr_transition_low_touch_time_bucket",
+]
+low_titles = [
+    "Previous RDR Low",
+    "Pre-ADR Low",
+    "ADR Low",
+    "ADR-Transition Low",
+    "ODR Low",
+    "ODR-Transition Low",
+]
+
+row2 = st.columns(6)
+for idx, col in enumerate(low_cols):
+    if col in df_plot:
+        fig = px.histogram(
+            df_plot,
+            x=col,
+            title=low_titles[idx],
+            labels={col: ""},
+            category_orders={col: list(segments.keys()) + ["No touch"]},
+        )
+        row2[idx].plotly_chart(fig, use_container_width=True)
