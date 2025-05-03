@@ -73,7 +73,7 @@ df['date'] = pd.to_datetime(df['time']).dt.date
 
 # 1) Make sure 'date' is a datetime column
 if "date" in df_1h.columns:
-    df_1h["date"] = pd.to_datetime(df_1h["date"])
+    df_1h["date"] = pd.to_datetime(df_1h["session_date"])
 else:
     st.sidebar.warning("No 'date' column found in your data!")
 
