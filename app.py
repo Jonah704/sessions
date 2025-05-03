@@ -97,7 +97,7 @@ row2_cols = st.columns([1, 1, 1, 1, 1, 1])
 with row1_cols[0]:
     prev_rdr_high_filter = st.selectbox(
         "Previous RDR High Touch",
-        options=["All"] + sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["all"] + sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row1_cols[1]:
     pre_adr_high_filter = st.selectbox(
