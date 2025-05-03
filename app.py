@@ -208,7 +208,7 @@ with row2_cols[3]:
     )
 with row2_cols[4]:
     odr_low_filter = st.selectbox(
-        "ODR RDR Low Touch",
+        "ODR Low Touch",
         options=["all"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist()),
         key="odr_low_filter"
     )
@@ -250,7 +250,7 @@ with row3_cols[3]:
     )
 with row3_cols[4]:
     odr_high_filter_exclusion = st.multiselect(
-        "ODR RDR High Touch",
+        "ODR High Touch",
         options=["none"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist()),
         key="odr_high_filter_exclusion"
     )
@@ -288,7 +288,7 @@ with row4_cols[3]:
     )
 with row4_cols[4]:
     odr_low_filter_exclusion = st.multiselect(
-        "ODR RDR Low Touch",
+        "ODR Low Touch",
         options=["none"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist()),
         key="odr_low_filter_exclusion"
     )
