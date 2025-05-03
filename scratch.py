@@ -151,7 +151,7 @@ if isinstance(start_date, tuple):
 st.markdown("### Session High / Low Inclusions")
 
 segment_order = list(segments.keys())          # ["pre_adr","adr","adr_transition",…,"rdr"]
-segment_order_with_no = segment_order + ["untouched"]
+segment_order_with_no = segment_order + ["Untouched"]
 
 row1_cols = st.columns([1, 1, 1, 1, 1, 1])
 row2_cols = st.columns([1, 1, 1, 1, 1, 1])
