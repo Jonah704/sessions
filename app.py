@@ -90,6 +90,7 @@ if isinstance(start_date, tuple):
     start_date, end_date = start_date
 
 row1_cols = st.columns([1, 1, 1, 1, 1, 1])
+row2_cols = st.columns([1, 1, 1, 1, 1, 1])
 
 with row1_cols[0]:
     prev_rdr_high_filter = st.multiselect(
