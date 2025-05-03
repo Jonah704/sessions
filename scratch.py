@@ -245,31 +245,31 @@ with row3_cols[0]:
 with row3_cols[1]:
     pre_adr_high_filter_exclusion = st.multiselect(
         "PRDR-ADR Transition High Touch",
-        options=["None"] + ["ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        options=["ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
         key="prdr_adr_transition_high_filter_exclusion"
     )
 with row3_cols[2]:
     adr_high_filter_exclusion = st.multiselect(
         "ADR High Touch",
-        options=["None"] + ["ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        options=["ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
         key="adr_high_filter_exclusion"
     )
 with row3_cols[3]:
     adr_transition_high_filter_exclusion = st.multiselect(
         "ADR-ODR Transition High Touch",
-        options=["None"] + ["ODR", "ODR-RDR Transition", "RDR"],
+        options=["ODR", "ODR-RDR Transition", "RDR"],
         key="adr_odr_transition_high_filter_exclusion"
     )
 with row3_cols[4]:
     odr_high_filter_exclusion = st.multiselect(
         "ODR High Touch",
-        options=["None"] + ["ODR-RDR Transition", "RDR"],
+        options=["ODR-RDR Transition", "RDR"],
         key="odr_high_filter_exclusion"
     )
 with row3_cols[5]:
     odr_transition_high_filter_exclusion = st.multiselect(
         "ODR-RDR Transition High Touch",
-        options=["None"] + ["RDR"],
+        options=["RDR"],
         key="odr_rdr_transition_high_filter_exclusion"
     )
 
@@ -277,37 +277,37 @@ with row3_cols[5]:
 with row4_cols[0]:
     prev_rdr_low_filter_exclusion = st.multiselect(
         "PRDR Low Touch",
-        options=["None"] + ["PRDR-ADR Transition", "ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        options=["PRDR-ADR Transition", "ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
         key="prdr_low_filter_exclusion"
     )
 with row4_cols[1]:
     pre_adr_low_filter_exclusion = st.multiselect(
         "PRDR-ADR Transition Low Touch",
-        options=["None"] + ["ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        options=["ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
         key="prdr_adr_transition_low_filter_exclusion"
     )
 with row4_cols[2]:
     adr_low_filter_exclusion = st.multiselect(
         "ADR Low Touch",
-        options=["None"] + ["ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        options=["ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
         key="adr_low_filter_exclusion"
     )
 with row4_cols[3]:
     adr_transition_low_filter_exclusion = st.multiselect(
         "ADR-ODR Transition Low Touch",
-        options=["None"] + ["ODR", "ODR-RDR Transition", "RDR"],
+        options=["ODR", "ODR-RDR Transition", "RDR"],
         key="adr_odr_transition_low_filter_exclusion"
     )
 with row4_cols[4]:
     odr_low_filter_exclusion = st.multiselect(
         "ODR Low Touch",
-        options=["None"] + ["ODR-RDR Transition", "RDR"],
+        options=["ODR-RDR Transition", "RDR"],
         key="odr_low_filter_exclusion"
     )
 with row4_cols[5]:
     odr_transition_low_filter_exclusion = st.multiselect(
         "ODR-RDR Transition Low Touch",
-        options=["None"] + ["RDR"],
+        options=["RDR"],
         key="odr_rdr_transition_low_filter_exclusion"
     )
     
