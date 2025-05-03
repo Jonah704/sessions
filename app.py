@@ -173,6 +173,10 @@ segments = {
 }
 
 df_plot = df.copy()
+segment_order_with_no = list(segments.keys()) + ["untouched"]
+
+# HIGH touch‐time buckets
+st.markdown("## High-Touch Time Buckets")
 high_cols = [
     "prev_rdr_high_touch_time_bucket",
     "pre_adr_high_touch_time_bucket",
@@ -193,14 +197,31 @@ high_titles = [
 row1 = st.columns(6)
 for idx, col in enumerate(high_cols):
     if col in df_plot:
-        fig = px.histogram(
-            df_plot,
-            x=col,
-            title=high_titles[idx],
-            labels={col: ""},
-            category_orders={col: list(segments.keys()) + ["No touch"]},
+        # calculate normalized counts (percentages)
+        counts = (
+            df_plot[col]
+            .value_counts(normalize=True)
+            .reindex(segment_order_with_no, fill_value=0)
         )
+        perc = counts * 100
+
+        fig = px.bar(
+            x=perc.values,
+            y=perc.index,
+            orientation="h",
+            text=[f"{v:.1f}%" for v in perc.values],
+            labels={"x": "% of Sessions", "y": ""},
+            title=high_titles[idx],
+        )
+        # push text outside, fix ordering
+        fig.update_traces(textposition="outside")
+        fig.update_layout(
+            yaxis={"categoryorder": "array", "categoryarray": segment_order_with_no},
+            margin=dict(l=10, r=10, t=30, b=10),
+        )
+
         row1[idx].plotly_chart(fig, use_container_width=True)
+
 
 # LOW touch‐time buckets
 st.markdown("## Low-Touch Time Buckets")
@@ -224,11 +245,25 @@ low_titles = [
 row2 = st.columns(6)
 for idx, col in enumerate(low_cols):
     if col in df_plot:
-        fig = px.histogram(
-            df_plot,
-            x=col,
-            title=low_titles[idx],
-            labels={col: ""},
-            category_orders={col: list(segments.keys()) + ["No touch"]},
+        counts = (
+            df_plot[col]
+            .value_counts(normalize=True)
+            .reindex(segment_order_with_no, fill_value=0)
         )
+        perc = counts * 100
+
+        fig = px.bar(
+            x=perc.values,
+            y=perc.index,
+            orientation="h",
+            text=[f"{v:.1f}%" for v in perc.values],
+            labels={"x": "% of Sessions", "y": ""},
+            title=low_titles[idx],
+        )
+        fig.update_traces(textposition="outside")
+        fig.update_layout(
+            yaxis={"categoryorder": "array", "categoryarray": segment_order_with_no},
+            margin=dict(l=10, r=10, t=30, b=10),
+        )
+
         row2[idx].plotly_chart(fig, use_container_width=True)
