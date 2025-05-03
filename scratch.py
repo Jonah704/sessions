@@ -348,19 +348,19 @@ row6_cols = st.columns([1, 1, 1])
 with row6_cols[0]:
     prev_rdr_midline_hit_exclusion = st.multiselect(
         "PRDR Mid Touch",
-        options=["All"] + ["PRDR-ADR Transition", "ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        options=["PRDR-ADR Transition", "ADR", "ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
         key="prdr_mid_hit_filter_exclusion"
     )
 with row6_cols[1]:
     adr_midline_hit_exclusion = st.multiselect(
         "ADR Mid Touch",
-        options=["All"] + ["ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
+        options=["ADR-ODR Transition", "ODR", "ODR-RDR Transition", "RDR"],
         key="adr_mid_hit_filter_exclusion"
     )
 with row6_cols[2]:
     odr_midline_hit_exclusion = st.multiselect(
         "ODR Mid Touch",
-        options=["All"] + ["ODR-RDR Transition", "RDR"],
+        options=["ODR-RDR Transition", "RDR"],
         key="odr_mid_hit_filter_exclusion"
     )
 
