@@ -70,4 +70,15 @@ if "date" in df.columns:
 else:
     st.sidebar.warning("No 'date' column found in your data!")
 
-# 2) Add a date‐range picker to the sidebar
+    min_date = df["date"].min().date()
+    max_date = df["date"].max().date()
+    start_date, end_date = st.sidebar.date_input(
+        "Select date range:",
+        value=(min_date, max_date),
+        min_value=min_date,
+        max_value=max_date
+    )
+    # 3) Filter your DataFrame
+    if isinstance(start_date, tuple):
+        # sometimes date_input returns a single date if you pass a single default
+        start_date, end_date = start_date
