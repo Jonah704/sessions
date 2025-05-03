@@ -91,34 +91,34 @@ if isinstance(start_date, tuple):
 
 row1_cols = st.columns([1, 1, 1, 1, 1, 1])
 
-    with row1_cols[0]:
-        prev_rdr_high_filter = st.multiselect(
-            "Previous RDR High Touch",
-            options=sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist())
-        )
-    with row1_cols[1]:
-        pre_adr_high_filter = st.multiselect(
-            "Pre ADR High Touch",
-            options=sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist())
-        )
-    with row1_cols[2]:
-        adr_high_filter = st.multiselect(
-            "ADR High Touch",
-            options=sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist())
-        )
-    with row1_cols[3]:
-        adr_transition_high_filter = st.multiselect(
-            "ADR Transition RDR High Touch",
-            options=sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist())
-        )
-    with row1_cols[4]:
-        odr_high_filter = st.multiselect(
-            "ODR RDR High Touch",
-            options=sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist())
-        )
-    with row1_cols[5]:
-        odr_transition_high_filter = st.multiselect(
-            "ODR Transition RDR High Touch",
-            options=sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
-        )
+with row1_cols[0]:
+    prev_rdr_high_filter = st.multiselect(
+        "Previous RDR High Touch",
+        options=sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row1_cols[1]:
+    pre_adr_high_filter = st.multiselect(
+        "Pre ADR High Touch",
+        options=sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row1_cols[2]:
+    adr_high_filter = st.multiselect(
+        "ADR High Touch",
+        options=sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row1_cols[3]:
+    adr_transition_high_filter = st.multiselect(
+        "ADR Transition RDR High Touch",
+        options=sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row1_cols[4]:
+    odr_high_filter = st.multiselect(
+        "ODR RDR High Touch",
+        options=sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist())
+    )
+with row1_cols[5]:
+    odr_transition_high_filter = st.multiselect(
+        "ODR Transition RDR High Touch",
+        options=sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+    )
 
