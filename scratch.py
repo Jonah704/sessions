@@ -354,7 +354,7 @@ df_filtered = df_filtered[
 
 for col, state_key in inclusion_map.items():
     sel = st.session_state[state_key]
-    if sel != "All":
+    if sel != "all":
         df_filtered = df_filtered[df_filtered[col] == sel]
 
 for col, state_key in exclusion_map.items():
