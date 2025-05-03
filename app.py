@@ -321,7 +321,7 @@ with row4_cols[5]:
     )
 
 # MIDLINES
-st.markdown("### Session IDR Midlines Inclusions")
+st.markdown("### Session IDR Midline Inclusions")
 row5_cols = st.columns([1, 1, 1])
 
 with row5_cols[0]:
@@ -343,7 +343,7 @@ with row5_cols[2]:
         key="odr_mid_hit_filter"
     )
     
-st.markdown("### Session IDR Midlines Exclusions")
+st.markdown("### Session IDR Midline Exclusions")
 row6_cols = st.columns([1, 1, 1])
 with row6_cols[0]:
     prev_rdr_midline_hit_exclusion = st.multiselect(
