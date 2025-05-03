@@ -285,3 +285,5 @@ for idx, col in enumerate(low_cols):
         )
 
         row2[idx].plotly_chart(fig, use_container_width=True)
+
+st.caption(f"Sample size: {len(df_filtered):,} rows")
