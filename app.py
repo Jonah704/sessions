@@ -86,7 +86,7 @@ min_date = df["date"].min().date()
 max_date = df["date"].max().date()
 start_date, end_date = st.sidebar.date_input(
     "Select date range:",
-    value=(min_date, max_date),
+    value=st.session_state.get("date_range", (min_date, max_date)),
     min_value=min_date,
     max_value=max_date,
     key="date_range"
