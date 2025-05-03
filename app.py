@@ -97,7 +97,7 @@ if isinstance(start_date, tuple):
     # sometimes date_input returns a single date if you pass a single default
     start_date, end_date = start_date
 
-st.markdown("### Session High / Low Inclusion")
+st.markdown("### Session High / Low Inclusions")
 
 segment_order = list(segments.keys())          # ["pre_adr","adr","adr_transition",…,"rdr"]
 segment_order_with_no = segment_order + ["untouched"]
