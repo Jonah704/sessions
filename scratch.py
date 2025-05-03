@@ -255,9 +255,9 @@ with row3_cols[2]:
     )
 with row3_cols[3]:
     adr_transition_high_filter_exclusion = st.multiselect(
-        "ADR-RDR Transition High Touch",
+        "ADR-ODR Transition High Touch",
         options=["none"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist()),
-        key="adr_rdr_transition_high_filter_exclusion"
+        key="adr_odr_transition_high_filter_exclusion"
     )
 with row3_cols[4]:
     odr_high_filter_exclusion = st.multiselect(
