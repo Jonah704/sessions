@@ -70,6 +70,12 @@ if "date" in df.columns:
 else:
     st.sidebar.warning("No 'date' column found in your data!")
 
+
+# Sidebar
+
+day_options = ['All'] + ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+selected_day = st.sidebar.selectbox("Day of Week", day_options)
+
 min_date = df["date"].min().date()
 max_date = df["date"].max().date()
 start_date, end_date = st.sidebar.date_input(
@@ -82,3 +88,11 @@ start_date, end_date = st.sidebar.date_input(
 if isinstance(start_date, tuple):
     # sometimes date_input returns a single date if you pass a single default
     start_date, end_date = start_date
+
+row1_cols = st.columns([1, 1, 1, 1, 1, 1]
+
+    with row1_cols[0]:
+        prev_rdr_high_filter = st.multiselect(
+            "Previous RDR High Touch",
+            options=sorted(df["high_bucket"].dropna().unique().tolist())
+        )
