@@ -440,6 +440,45 @@ for col, state_key in exclusion_map.items():
 # GRAPHS
 df_plot = df.copy()
 
+# MIDS touch-time buckets
+mid_cols = [
+    "prev_rdr_idr_midline_touch_time_bucket",
+    "adr_idr_midline_touch_time_bucket",
+    "odr_idr_midline_touch_time_bucket",
+]
+mid_titles = [
+    "PRDR Mid",
+    "ADR Mid",
+    "ODR Mid",
+]
+
+row1 = st.columns(3)
+for idx, col in enumerate(mid_cols):
+    if col in df_filtered:
+        counts = (
+            df_filtered[col]
+            .value_counts(normalize=True)
+            .reindex(segment_order_with_no, fill_value=0)
+        )
+        perc = counts * 100
+
+        fig = px.bar(
+            x=perc.index,
+            y=perc.values,
+            text=[f"{v:.1f}%" for v in perc.values],
+            labels={"x": "", "y": "% of Sessions"},
+            title=mid_titles[idx],
+        )
+        fig.update_traces(textposition="outside")
+        fig.update_layout(
+            xaxis={"categoryorder": "array", "categoryarray": segment_order_with_no},
+            margin=dict(l=10, r=10, t=30, b=10),
+        )
+
+        row1[idx].plotly_chart(fig, use_container_width=True)
+
+
+
 # HIGH touch‐time buckets
 high_cols = [
     "prev_rdr_high_touch_time_bucket",
@@ -450,7 +489,7 @@ high_cols = [
     "odr_transition_high_touch_time_bucket",
 ]
 high_titles = [
-    "Previous RDR High",
+    "PRDR High",
     "PRDR-ADR Transition High",
     "ADR High",
     "ADR-ODR Transition High",
@@ -458,7 +497,7 @@ high_titles = [
     "ODR-RDR Transition High",
 ]
 
-row1 = st.columns(6)
+row2 = st.columns(6)
 for idx, col in enumerate(high_cols):
     if col in df_filtered:
         counts = (
@@ -481,7 +520,7 @@ for idx, col in enumerate(high_cols):
             margin=dict(l=10, r=10, t=30, b=10),
         )
 
-        row1[idx].plotly_chart(fig, use_container_width=True)
+        row2[idx].plotly_chart(fig, use_container_width=True)
 
 
 # LOW touch‐time buckets
@@ -502,7 +541,7 @@ low_titles = [
     "ODR-RDR Transition Low",
 ]
 
-row2 = st.columns(6)
+row3 = st.columns(6)
 for idx, col in enumerate(low_cols):
     if col in df_filtered:
         counts = (
@@ -525,6 +564,6 @@ for idx, col in enumerate(low_cols):
             margin=dict(l=10, r=10, t=30, b=10),
         )
 
-        row2[idx].plotly_chart(fig, use_container_width=True)
+        row3[idx].plotly_chart(fig, use_container_width=True)
 
 st.caption(f"Sample size: {len(df_filtered):,} rows")
