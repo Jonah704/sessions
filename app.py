@@ -72,8 +72,8 @@ df = load_data_for_instrument(selected_instrument)
 df['date'] = pd.to_datetime(df['session_date']).dt.date
 
 # 1) Make sure 'date' is a datetime column
-if "date" in df_1h.columns:
-    df["date"] = pd.to_datetime(df_1h["session_date"])
+if "date" in df.columns:
+    df["date"] = pd.to_datetime(df["session_date"])
 else:
     st.sidebar.warning("No 'date' column found in your data!")
 
