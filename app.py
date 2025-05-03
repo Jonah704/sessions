@@ -158,7 +158,28 @@ with row2_cols[5]:
     )
 
 # Apply filters
+df_filtered = df.copy()
 
+# map each filter to its column
+exclusion_map = {
+    "prev_rdr_high_touch_time_bucket": prev_rdr_high_filter,
+    "pre_adr_high_touch_time_bucket":  pre_adr_high_filter,
+    "adr_high_touch_time_bucket":      adr_high_filter,
+    "adr_transition_high_touch_time_bucket": adr_transition_high_filter,
+    "odr_high_touch_time_bucket":      odr_high_filter,
+    "odr_transition_high_touch_time_bucket": odr_transition_high_filter,
+
+    "prev_rdr_low_touch_time_bucket":  prev_rdr_low_filter,
+    "pre_adr_low_touch_time_bucket":   pre_adr_low_filter,
+    "adr_low_touch_time_bucket":       adr_low_filter,
+    "adr_transition_low_touch_time_bucket": adr_transition_low_filter,
+    "odr_low_touch_time_bucket":       odr_low_filter,
+    "odr_transition_low_touch_time_bucket": odr_transition_low_filter,
+}
+
+for col, exclude_vals in exclusion_map.items():
+    if exclude_vals:  # non-empty list → drop those rows
+        df_filtered = df_filtered[~df_filtered[col].isin(exclude_vals)]
 
 # Graphs
 segments = {
@@ -194,9 +215,9 @@ high_titles = [
 
 row1 = st.columns(6)
 for idx, col in enumerate(high_cols):
-    if col in df_plot:
+    if col in df_filtered:
         counts = (
-            df_plot[col]
+            df_filtered[col]
             .value_counts(normalize=True)
             .reindex(segment_order_with_no, fill_value=0)
         )
@@ -238,9 +259,9 @@ low_titles = [
 
 row2 = st.columns(6)
 for idx, col in enumerate(low_cols):
-    if col in df_plot:
+    if col in df_filtered:
         counts = (
-            df_plot[col]
+            df_filtered[col]
             .value_counts(normalize=True)
             .reindex(segment_order_with_no, fill_value=0)
         )
