@@ -165,64 +165,64 @@ row4_cols = st.columns([1, 1, 1, 1, 1, 1])
 with row3_cols[0]:
     prev_rdr_high_filter_exclusion = st.multiselect(
         "Previous RDR High Touch",
-        options=["all"] + sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row3_cols[1]:
     pre_adr_high_filter_exclusion = st.multiselect(
         "Pre ADR High Touch",
-        options=["all"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row3_cols[2]:
     adr_high_filter_exclusion = st.multiselect(
         "ADR High Touch",
-        options=["all"] + sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row3_cols[3]:
     adr_transition_high_filter_exclusion = st.multiselect(
         "ADR Transition RDR High Touch",
-        options=["all"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row3_cols[4]:
     odr_high_filter_exclusion = st.multiselect(
         "ODR RDR High Touch",
-        options=["all"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row3_cols[5]:
     odr_transition_high_filter_exclusion = st.multiselect(
         "ODR Transition RDR High Touch",
-        options=["all"] + sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
     )
 
 # Second Row
 with row4_cols[0]:
     prev_rdr_low_filter_exclusion = st.multiselect(
         "Previous RDR Low Touch",
-        options=["all"] + sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row4_cols[1]:
     pre_adr_low_filter_exclusion = st.multiselect(
         "Pre ADR Low Touch",
-        options=["all"] + sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row4_cols[2]:
     adr_low_filter_exclusion = st.multiselect(
         "ADR Low Touch",
-        options=["all"] + sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row4_cols[3]:
     adr_transition_low_filter_exclusion = st.multiselect(
         "ADR Transition RDR Low Touch",
-        options=["all"] + sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row4_cols[4]:
     odr_low_filter_exclusion = st.multiselect(
         "ODR RDR Low Touch",
-        options=["all"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row4_cols[5]:
     odr_transition_low_filter_exclusion = st.multiselect(
         "ODR Transition Low High Touch",
-        options=["all"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
+        options=["none"] + sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
     )
     
 # Apply filters
@@ -268,6 +268,10 @@ df_filtered = df.copy()
 for col, sel in inclusion_map.items():
     if sel != "all":                     # only filter when a real value is chosen
         df_filtered = df_filtered[df_filtered[col] == sel]
+
+for col, exclude_vals in exclusion_map.items():
+    if exclude_vals:  # non-empty list → drop those rows
+        df_filtered = df_filtered[~df_filtered[col].isin(exclude_vals)]
         
 # Graphs
 segments = {
