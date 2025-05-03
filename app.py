@@ -89,70 +89,70 @@ if isinstance(start_date, tuple):
     # sometimes date_input returns a single date if you pass a single default
     start_date, end_date = start_date
 
-st.markdown("### Session High / Low Exclusion Filters")
+st.markdown("### Session High / Low Inclusion")
 
 row1_cols = st.columns([1, 1, 1, 1, 1, 1])
 row2_cols = st.columns([1, 1, 1, 1, 1, 1])
 
 with row1_cols[0]:
-    prev_rdr_high_filter = st.multiselect(
+    prev_rdr_high_filter = st.selectbox(
         "Previous RDR High Touch",
         options=sorted(df["prev_rdr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row1_cols[1]:
-    pre_adr_high_filter = st.multiselect(
+    pre_adr_high_filter = st.selectbox(
         "Pre ADR High Touch",
         options=sorted(df["pre_adr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row1_cols[2]:
-    adr_high_filter = st.multiselect(
+    adr_high_filter = st.selectbox(
         "ADR High Touch",
         options=sorted(df["adr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row1_cols[3]:
-    adr_transition_high_filter = st.multiselect(
+    adr_transition_high_filter = st.selectbox(
         "ADR Transition RDR High Touch",
         options=sorted(df["adr_transition_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row1_cols[4]:
-    odr_high_filter = st.multiselect(
+    odr_high_filter = st.selectbox(
         "ODR RDR High Touch",
         options=sorted(df["odr_high_touch_time_bucket"].dropna().unique().tolist())
     )
 with row1_cols[5]:
-    odr_transition_high_filter = st.multiselect(
+    odr_transition_high_filter = st.selectbox(
         "ODR Transition RDR High Touch",
         options=sorted(df["odr_transition_high_touch_time_bucket"].dropna().unique().tolist())
     )
 
 # Second Row
 with row2_cols[0]:
-    prev_rdr_low_filter = st.multiselect(
+    prev_rdr_low_filter = st.selectbox(
         "Previous RDR Low Touch",
         options=sorted(df["prev_rdr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row2_cols[1]:
-    pre_adr_low_filter = st.multiselect(
+    pre_adr_low_filter = st.selectbox(
         "Pre ADR Low Touch",
         options=sorted(df["pre_adr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row2_cols[2]:
-    adr_low_filter = st.multiselect(
+    adr_low_filter = st.selectbox(
         "ADR Low Touch",
         options=sorted(df["adr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row2_cols[3]:
-    adr_transition_low_filter = st.multiselect(
+    adr_transition_low_filter = st.selectbox(
         "ADR Transition RDR Low Touch",
         options=sorted(df["adr_transition_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row2_cols[4]:
-    odr_low_filter = st.multiselect(
+    odr_low_filter = st.selectbox(
         "ODR RDR Low Touch",
         options=sorted(df["odr_low_touch_time_bucket"].dropna().unique().tolist())
     )
 with row2_cols[5]:
-    odr_transition_low_filter = st.multiselect(
+    odr_transition_low_filter = st.selectbox(
         "ODR Transition Low High Touch",
         options=sorted(df["odr_transition_low_touch_time_bucket"].dropna().unique().tolist())
     )
@@ -163,7 +163,7 @@ df_filtered = df.copy()
 st.markdown("### Distributions")
 
 # map each filter to its column
-exclusion_map = {
+inclusion_map = {
     "prev_rdr_high_touch_time_bucket": prev_rdr_high_filter,
     "pre_adr_high_touch_time_bucket":  pre_adr_high_filter,
     "adr_high_touch_time_bucket":      adr_high_filter,
@@ -179,10 +179,12 @@ exclusion_map = {
     "odr_transition_low_touch_time_bucket": odr_transition_low_filter,
 }
 
-for col, exclude_vals in exclusion_map.items():
-    if exclude_vals:  # non-empty list → drop those rows
-        df_filtered = df_filtered[~df_filtered[col].isin(exclude_vals)]
-
+# Apply filters
+df_filtered = df.copy()
+for col, sel in inclusion_map.items():
+    if sel != "All":                     # only filter when a real value is chosen
+        df_filtered = df_filtered[df_filtered[col] == sel]
+        
 # Graphs
 segments = {
     "pre_adr":        (   0,  90),
