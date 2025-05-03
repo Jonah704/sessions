@@ -122,9 +122,15 @@ default_filters = {
     "odr_transition_low_filter_exclusion":  [],
 }
 
-if st.sidebar.button("🔄 Reset all filters"):
+# 2) Reset button with callback
+def reset_all_filters():
     for key, default in default_filters.items():
-        st.session_state[key] = default
+        # only touch keys that actually exist
+        if key in st.session_state:
+            st.session_state[key] = default
+
+st.sidebar.button("🔄 Reset all filters", on_click=reset_all_filters)
+
 if isinstance(start_date, tuple):
     # sometimes date_input returns a single date if you pass a single default
     start_date, end_date = start_date
