@@ -89,6 +89,8 @@ if isinstance(start_date, tuple):
     # sometimes date_input returns a single date if you pass a single default
     start_date, end_date = start_date
 
+st.markdown("### Session High / Low Exclusion Filters")
+
 row1_cols = st.columns([1, 1, 1, 1, 1, 1])
 row2_cols = st.columns([1, 1, 1, 1, 1, 1])
 
@@ -124,7 +126,6 @@ with row1_cols[5]:
     )
 
 # Second Row
-
 with row2_cols[0]:
     prev_rdr_low_filter = st.multiselect(
         "Previous RDR Low Touch",
