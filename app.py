@@ -7,7 +7,7 @@ st.set_page_config(layout='wide')
 
 @st.cache_data
 def load_data_for_instrument(instrument: str) -> pd.DataFrame:
-    base = "https://raw.githubusercontent.com/TuckerArrants/hourly_quarters/main"
+    base = "https://raw.githubusercontent.com/TuckerArrants/sessions/main"
     url = f"{base}/{fname}"
     try:
         return pd.read_csv(url)
