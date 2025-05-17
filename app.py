@@ -20,6 +20,7 @@ def load_data_for_instrument(instrument: str) -> pd.DataFrame:
 USER_CREDENTIALS = {
     "badboyz": "bangbang",
     "dreamteam" : "strike",
+    "Almkuh"    : "Weidemilch",
 }
 
 segments = {
